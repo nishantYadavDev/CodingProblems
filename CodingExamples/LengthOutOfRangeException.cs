@@ -15,5 +15,12 @@ namespace CodingExamples
             this.maxLength = maxLength;
             msg += $"Expected Range {minLength} to {maxLength}";
         }
+        public static void ThrowIfNotInRange(string msg,int length, int minLengthInclusive, int maxLengthInclusive)
+        {
+            if(length < minLengthInclusive || length > maxLengthInclusive)
+            {
+                throw new LengthOutOfRangeException(msg,minLengthInclusive,maxLengthInclusive);
+            }
+        }
     }
 }
