@@ -1,4 +1,6 @@
-﻿namespace CodingExamples.IntegerArrays
+﻿using System;
+
+namespace CodingExamples.IntegerArrays
 {
 //    Problem: Given an integer array nums and an integer k, return the k-th largest element in the array.
 //Constraints:
@@ -82,7 +84,87 @@
         public int FindKthLargestUsingQuickSelection(int kth)
         {
             ThrowIfKthValueNotInRange(kth);
-            throw new NotImplementedException();
+
+            return FindKthMostWithRecursiveQuickSelect(numbers.Length-kth, 0, numbers.Length - 1);
+        }
+        public int FindKthSmallestUsingQuickSelection(int kth)
+        {
+            ThrowIfKthValueNotInRange(kth);
+
+            return FindKthMostWithRecursiveQuickSelect(kth-1, 0, numbers.Length - 1);
+        }
+        private int FindKthMostWithRecursiveQuickSelect(int kth, int low, int high)
+        {
+            int pivotIndex = GetPartitionIndexUsingLomuto(low, high);
+            if (low == high)
+            {
+                return numbers[low]; 
+            }
+            if (pivotIndex == kth )
+            {
+                return numbers[pivotIndex];
+            }
+            else if (pivotIndex < kth )
+            {
+                return FindKthMostWithRecursiveQuickSelect(kth, pivotIndex + 1, high);
+            }
+            else {
+                return FindKthMostWithRecursiveQuickSelect(kth, low, pivotIndex - 1);
+            }
+            
+        }
+        public int GetPartitionIndexUsingLomuto(int low,int high)
+        {
+            ThrowIfLowHighNotInIndexRange(low, high);
+            int left = low - 1;         
+            
+            int pivot = numbers[high];
+            int i = low, j = high - 1; 
+            while (i <= j) {
+                
+                if (numbers[i] <= pivot)
+                {
+                    left++;
+                    var temp = numbers[left];
+                    numbers[left] = numbers[i];
+                    numbers[i] = temp;
+                }                
+                i++;
+            }
+           
+            var t = numbers[left+1];
+            numbers[left+1] = pivot;
+            numbers[high] = t;
+            return left+1;
+        }
+       
+        
+        public int GetPartitionIndexUsingHoare(int low, int high)
+        {
+            //does not gauarrente the correct pivot index in the sorted array
+            ThrowIfLowHighNotInIndexRange(low,high);
+            int pivot = numbers[low];
+            int i = low, j = high;
+            while (i < j)
+            {
+
+                while (numbers[i] < pivot)
+                {                   
+                    i++;
+                }
+                while (numbers[j] > pivot)
+                {                   
+                    j--;
+                }
+                if (i < j)
+                {
+                    var tmp = numbers[i];
+                    numbers[i] = numbers[j];
+                    numbers[j] = tmp;
+                }
+            }
+            return j;
+          
         }
         #endregion
 
@@ -126,6 +208,13 @@
             }
         }
 
-
+        private void ThrowIfLowHighNotInIndexRange(int low, int high)
+        {
+            if (low < 0 || low >= numbers.Length || high < 0 || high >= numbers.Length )
+            {
+                throw new IndexOutOfRangeException($"Provided index are out of range {low} and {high} possible range {0} to {numbers.Length-1} ");
+            }
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(low, high);           
+        }
     }
 }
