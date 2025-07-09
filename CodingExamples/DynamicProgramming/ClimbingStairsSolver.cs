@@ -3,20 +3,20 @@
     public class ClimbingStairsSolver
     {
         public const uint MAX_STEPS = 92;
-        private void ValidateInput(uint uptoN)
+        private void ValidateInput(uint uptoStepN)
         {
-            ArgumentOutOfRangeException.ThrowIfLessThan<uint>(uptoN, 1);
-            ArgumentOutOfRangeException.ThrowIfGreaterThan<uint>(uptoN, MAX_STEPS);
+            ArgumentOutOfRangeException.ThrowIfLessThan<uint>(uptoStepN, 1);
+            ArgumentOutOfRangeException.ThrowIfGreaterThan<uint>(uptoStepN, MAX_STEPS);
         }
-        public ulong[] GetNumberOfWaysSeries(uint uptoN)
+        public ulong[] GetNumberOfWaysSeries(uint uptoStepN)
         {
-            ValidateInput( uptoN);
+            ValidateInput( uptoStepN);
             List<ulong> series = new List<ulong>();            
-            if (uptoN == 1)
+            if (uptoStepN == 1)
             {
                 series.Add(1);
             }
-            else if (uptoN == 2)
+            else if (uptoStepN == 2)
             {
                 series.Add(1);
                 series.Add(2);
@@ -26,7 +26,7 @@
                 ulong first = 1; series.Add(1);
                 ulong second = 2; series.Add(2);
 
-                for (uint i = 3; i <= uptoN; i++)
+                for (uint i = 3; i <= uptoStepN; i++)
                 {
                     ulong val = checked(first + second);
                     series.Add(val);
@@ -36,22 +36,22 @@
             }
             return [.. series];
         }
-        public ulong GetNumberOfWays(uint nth)
+        public ulong GetNumberOfWays(uint nthStep)
         {
-            ValidateInput(nth);
+            ValidateInput(nthStep);
             ulong first = 1;
             ulong second = 2;
-            if (nth == 1)
+            if (nthStep == 1)
             {
                 return first;
             }
-            else if (nth == 2)
+            else if (nthStep == 2)
             {
                 return second;
             }
             else
             {
-                for (uint i = 3; i <= nth; i++)
+                for (uint i = 3; i <= nthStep; i++)
                 {
                     ulong val = checked(first + second);
                     first = second;

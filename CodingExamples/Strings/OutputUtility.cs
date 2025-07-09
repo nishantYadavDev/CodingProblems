@@ -25,5 +25,18 @@ namespace CodingExamples.Strings
             }
             return sb.ToString();
         }
+        public static string Print<T>(IEnumerable<T> data)
+        {
+            if (data == null)
+            {
+                return "";
+            }           
+            StringBuilder sb = new StringBuilder();
+            foreach (T item in data) {
+                sb.Append($"{item} ");
+            }
+                
+            return sb.ToString();
+        }
     }
 }
