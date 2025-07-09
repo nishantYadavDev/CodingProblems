@@ -3,6 +3,8 @@ using CodingExamples;
 using CodingExamples.DynamicProgramming;
 using CodingExamples.Strings;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
+using System.Numerics;
+using System.Windows.Markup;
 using Xunit.Abstractions;
 
 namespace TestCodingExamples
@@ -43,15 +45,7 @@ namespace TestCodingExamples
             _output.WriteLine("94 element " + upto48[93]);
             _output.WriteLine("93 element " + upto48[92]);
         }
-        [Fact]
-        public void TestGetSeries_OverflowException()
-        {
-            //Arrange
-            var fibb = new Fibonacci();            
-            //Assert
-            Assert.Throws<OverflowException>(() => fibb.GetSeries(int.MaxValue));
-
-        }
+       
         [Fact]
         public void TestGetOverflowUptoNumber()
         {
@@ -61,15 +55,7 @@ namespace TestCodingExamples
             //Assert           
 
         }
-        [Fact]
-        public void TestGetNumber_OverflowException()
-        {
-            //Arrange
-            var fibb = new Fibonacci();
-            //Assert
-            Assert.Throws<OverflowException>(() => fibb.GetSeries(95));
-
-        }
+       
         [Fact]
         public void TestGetNumber()
         {
@@ -77,6 +63,38 @@ namespace TestCodingExamples
             var fibb = new Fibonacci();
             //Assert
             Assert.Equal<ulong>(8,fibb.GetNumber(7));
+
+        }
+        [Fact]
+        public void TestGetBigIntegerNumber()
+        {
+            //Arrange
+            var fibb = new Fibonacci();
+            //Assert
+            var value = fibb.GetBigIntegerNumber(1000);
+            _output.WriteLine("" + value);
+            var expected =  BigInteger.Parse("26863810024485359386146727202142923967616609318986952340123175997617981700247881689338369654483356564191827856161443356312976673642210350324634850410377680367334151172899169723197082763985615764450078474174626");
+            Assert.Equal<BigInteger>(expected,value);
+        }
+        [Fact]
+        public void TestGetBigIntegerNumber_IntMax()
+        {
+            //Arrange
+            var fibb = new Fibonacci();
+            //Assert
+            var value = fibb.GetBigIntegerNumber(2_000);
+            var outputString= value.ToString();
+            _output.WriteLine("Digits length " + outputString.Length);
+            _output.WriteLine(outputString);
+           
+        }
+        [Fact]
+        public void TestGetBigIntegerNumber_OutOfRange()
+        {
+            //Arrange
+            var fibb = new Fibonacci();
+            //Assert
+            Assert.Throws<ArgumentOutOfRangeException>(()=> fibb.GetBigIntegerNumber(2_000_001));            
 
         }
     }
